@@ -2,5 +2,5 @@
 Place for completed "Test tasks" from different companies
 
 
-You can see list of completed "Test tasks"
+You can see list of completed "Test tasks" with detailed description
 - [HoffmanJob](hoffmanjob)
