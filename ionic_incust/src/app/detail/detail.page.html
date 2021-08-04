@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ shopItem.sku }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-img [src]="shopItem.image"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{ shopItem.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label>{{ shopItem.description }}</ion-label>
+      <br/>
+      <strong>Price: ${{ shopItem.price }}</strong>
+
+      <ion-row>
+        <ion-button (click)="amount = 100; onChangePrice()">$100</ion-button>
+        <ion-button (click)="amount = 10; onChangePrice()">$10</ion-button>
+        <ion-button (click)="qty = 2.2; onChangeQty()">2.2 qty</ion-button>
+        <ion-button (click)="qty = 9; onChangeQty()">9 qty</ion-button>
+        <ion-col>
+          <ion-label position="stacked">Amount, $</ion-label>
+          <ion-input type="number" [(ngModel)]="amount" (ngModelChange)="onChangePrice()"></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-label position="stacked">Quantity</ion-label>
+          <ion-input type="number" [(ngModel)]="qty" (ngModelChange)="onChangeQty()" (keypress)="realNumberOnlyValidation($event)" (input)="onQtyInput($event)"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

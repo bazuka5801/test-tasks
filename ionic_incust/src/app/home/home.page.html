@@ -1,20 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-searchbar show-clear-button #searchbar></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content>
+  <ion-virtual-scroll [items]="shopItems" approxItemHeight="60px" #virtualShopItems>
+    <ion-item *virtualItem="let item; let itemBounds = bounds;" (click)="goDetail(item.sku)">
+      <ion-avatar slot="start">
+        <ion-img [src]="item.image" title="LO"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ item.name }}</h2>
+        <p>{{ item.description }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-virtual-scroll>
 </ion-content>
