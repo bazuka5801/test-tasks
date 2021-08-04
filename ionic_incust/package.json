@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "dev:ios": "ionic capacitor copy ios && ionic capacitor run ios -l --external"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,7 @@
     "@capacitor/app": "1.0.2",
     "@capacitor/core": "3.1.2",
     "@capacitor/haptics": "1.0.2",
+    "@capacitor/ios": "^3.1.2",
     "@capacitor/keyboard": "1.0.2",
     "@capacitor/status-bar": "1.0.2",
     "@ionic/angular": "^5.5.2",
