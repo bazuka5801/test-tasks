@@ -5,7 +5,10 @@ inCust Ltd
 ## Видео демонстрация выполненного задания
 
 
-https://user-images.githubusercontent.com/11452353/128266948-cf414bf6-00d0-4515-beac-096784c48266.mp4
+
+
+https://user-images.githubusercontent.com/11452353/128328501-791fde21-cff2-4e35-9c59-6afbee3c9c5e.mp4
+
 
 
 
