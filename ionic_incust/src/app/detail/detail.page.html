@@ -1,14 +1,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ shopItem.sku }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card *ngIf="shopItem; else showError">
     <ion-img [src]="shopItem.image"></ion-img>
     <ion-card-header>
       <ion-card-title>{{ shopItem.name }}</ion-card-title>
@@ -34,4 +34,12 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
+  <ng-template #showError>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Product not found...</ion-card-title>
+        <ion-card-subtitle>Please, go back</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </ng-template>
 </ion-content>

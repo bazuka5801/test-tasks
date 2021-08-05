@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-searchbar show-clear-button #searchbar></ion-searchbar>
+    <ion-searchbar show-clear-button [(ngModel)]="searchText" (ionClear)="onClearText()" #searchbar></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

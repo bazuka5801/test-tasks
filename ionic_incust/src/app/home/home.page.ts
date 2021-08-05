@@ -3,19 +3,14 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ShopItem} from 'src/typings/shop.item';
 import {shopItems} from 'src/assets/data';
 import {debounceTime, distinctUntilChanged, filter, pluck, switchMap, tap} from 'rxjs/operators';
-import {fromEvent, of} from 'rxjs';
+import {fromEvent, merge, of} from 'rxjs';
 import {IonVirtualScroll} from '@ionic/angular';
 import {Storage} from '@ionic/storage-angular';
 import {Router} from '@angular/router';
 
 const isShopItemMatching = (shopItem: ShopItem, query: string) =>
-  [
-    'name',
-    'sku'
-  ].some(prop =>
-    shopItem[prop] && typeof shopItem[prop].toLowerCase === 'function' &&
-    shopItem[prop].toLowerCase().includes(query.toLowerCase())
-  );
+  shopItem.name.toLowerCase().includes(query.toLowerCase())
+  || shopItem.sku.toString() === query;
 
 @Component({
   selector: 'app-home',
@@ -27,6 +22,7 @@ export class HomePage implements AfterViewInit, OnInit {
   @ViewChild('virtualShopItems') virtualShopItems: IonVirtualScroll;
 
   shopItems: ShopItem[] = shopItems;
+  searchText = ""
 
   constructor(private storage: Storage, private router: Router) {
 
@@ -34,10 +30,11 @@ export class HomePage implements AfterViewInit, OnInit {
 
   async ngOnInit() {
     await this.storage.create();
+    this.searchText = await this.storage.get('searchQuery');
+    this.shopItems = this.filterShopItems(this.searchText)
   }
 
   async ngAfterViewInit() {
-    const queryText = await this.storage.get('searchQuery');
     const saveQueryText = async (query) => await this.storage.set('searchQuery', query);
 
     const input = await this.searchbar.getInputElement();
@@ -47,24 +44,32 @@ export class HomePage implements AfterViewInit, OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         tap(saveQueryText),
-        switchMap(this.getShopItems)
+        switchMap((searchText) => this.getShopItems$(searchText, this.filterShopItems))
       );
 
     shopSearch$.subscribe((items) => this.onShopItemsLoaded(items));
-
-    input.value = queryText;
-    input.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
-  onShopItemsLoaded(items) {
+  onShopItemsLoaded(items: ShopItem[]) {
     this.shopItems = items;
   }
 
-  getShopItems(searchText) {
-    return of(shopItems.filter((item: ShopItem) => isShopItemMatching(item, searchText)));
+  onClearText() {
+    this.shopItems = shopItems;
   }
 
-  goDetail(sku) {
+  getShopItems$(searchText: string, filterFn: (searchText: string) => ShopItem[]) {
+    return of(this.filterShopItems(searchText));
+  }
+
+  filterShopItems(searchText: string) {
+    if (searchText === null || searchText === "") {
+      return shopItems;
+    }
+    return shopItems.filter((item: ShopItem) => isShopItemMatching(item, searchText))
+  }
+
+  goDetail(sku: number) {
     this.router.navigate(['/detail', sku]);
   }
 }

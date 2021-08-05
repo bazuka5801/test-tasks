@@ -42,9 +42,9 @@ export class DetailPage implements OnInit {
     this.preventUpdate = false;
   }
 
-  onQtyInput(e) {
+  onQtyInput(event: { target: HTMLInputElement }) {
     const pattern = /(?![0-9])/.compile();
-    return e.target.value.replace(pattern, '');
+    return event.target.value.replace(pattern, '');
   }
 
   realNumberOnlyValidation(event: KeyboardEvent) {
